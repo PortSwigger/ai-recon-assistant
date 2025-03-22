@@ -92,6 +92,10 @@ public class ReconTab {
         // Hazır sorular
         JComboBox<String> questionTemplates = new JComboBox<>(new String[]{
             "What kind of application is this?",
+            "Identify which technologies, programming languages or frameworks are likely used in this application.",
+            "List all API endpoints.",
+            "Do any responses leak error messages, stack traces, or debug-related information?",
+            "Are there any potentially vulnerable endpoints?",
             "List all authentication-related endpoints.",
             "Summarize the API structure and key methods.",
             "Are there any potentially sensitive data transfers?",
