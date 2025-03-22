@@ -1,0 +1,23 @@
+
+plugins {
+    id 'java'
+}
+
+group = 'ai.recon'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'net.portswigger.burp.extensions:montoya-api:2025.2'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'ai.recon.ReconExtension'
+        )
+    }
+}
