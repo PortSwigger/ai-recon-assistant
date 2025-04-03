@@ -3,6 +3,7 @@ package ai.recon;
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.proxy.ProxyHttpRequestResponse;
+import burp.api.montoya.proxy.ProxyHistoryFilter;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,7 +46,7 @@ public class RequestUtils {
     }
 
 
-    public static List<ProxyHttpRequestResponse> getRequestsForHost(MontoyaApi api, String host) {
+    /* public static List<ProxyHttpRequestResponse> getRequestsForHost(MontoyaApi api, String host) {
         return api.proxy().history().stream()
                 .filter(req -> {
                     try {
@@ -55,7 +56,16 @@ public class RequestUtils {
                     }
                 })
                 .collect(Collectors.toList());
-    }
+    } */
+
+   public static List<ProxyHttpRequestResponse> getRequestsForHost(MontoyaApi api, String host) {
+    ProxyHistoryFilter filter = requestResponse ->
+        requestResponse.finalRequest().httpService().host().equalsIgnoreCase(host);
+
+
+    return api.proxy().history(filter);
+}
+
 
     public static String formatRequests(List<ProxyHttpRequestResponse> requests) {
         StringBuilder sb = new StringBuilder();
