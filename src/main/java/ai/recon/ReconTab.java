@@ -79,14 +79,39 @@ public class ReconTab {
         
 
 
-        askButton.addActionListener(e -> executor.execute(() -> {
+        /* askButton.addActionListener(e -> executor.execute(() -> {
             String host = (String) hostSelector.getSelectedItem();
             List<ProxyHttpRequestResponse> requests = RequestUtils.getRequestsForHost(api, host);
             String fullPrompt = RequestUtils.formatRequests(requests) + "\n\nQUESTION:\n" + questionArea.getText();
 
             var response = promptHandler.ask(fullPrompt);
             SwingUtilities.invokeLater(() -> outputArea.setText(response.content()));
-        }));
+        })); */
+
+        askButton.addActionListener(e -> {
+    askButton.setEnabled(false); // Disable the button to prevent multiple clicks
+    outputArea.setText("Processing..."); // Show a message indicating background activity
+
+    executor.execute(() -> {
+        try {
+            String host = (String) hostSelector.getSelectedItem();
+            List<ProxyHttpRequestResponse> requests = RequestUtils.getRequestsForHost(api, host);
+            String fullPrompt = RequestUtils.formatRequests(requests) + "\n\nQUESTION:\n" + questionArea.getText();
+
+            var response = promptHandler.ask(fullPrompt);
+
+            SwingUtilities.invokeLater(() -> {
+                outputArea.setText(response.content()); // Display the AI response
+                askButton.setEnabled(true); // Re-enable the button once done
+            });
+        } catch (Exception ex) {
+            SwingUtilities.invokeLater(() -> {
+                outputArea.setText("An error occurred: " + ex.getMessage()); // Show error message
+                askButton.setEnabled(true); // Ensure button is re-enabled even after an error
+            });
+        }
+    });
+});
         refreshButton.addActionListener(e -> refreshHostList(hostSelector, api));
 
         // Hazır sorular
