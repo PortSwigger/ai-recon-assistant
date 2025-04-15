@@ -7,16 +7,18 @@ import burp.api.montoya.EnhancedCapability;
 import burp.api.montoya.logging.Logging;
 
 import java.util.Set;
-import static java.util.concurrent.Executors.newFixedThreadPool;
+import java.util.concurrent.ExecutorService;
 
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static burp.api.montoya.EnhancedCapability.AI_FEATURES;
+
 public class ReconExtension implements BurpExtension {
     @Override
     public void initialize(MontoyaApi api) {
         api.extension().setName("AI Recon Assistant");
         Logging logging = api.logging();
 
-        ExecutorService executorService = newFixedThreadPool(3); // Save reference to thread pool
+        ExecutorService executorService = newFixedThreadPool(3);
 
         var promptHandler = new ReconPromptHandler(api);
 

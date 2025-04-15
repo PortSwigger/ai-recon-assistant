@@ -1,0 +1,13 @@
+Uuid: f5ddfbd9bcf24d15bda8b13aa1c19d47
+ExtensionType: 1
+Name: AI Recon Assistant
+RepoName: ai-recon-assistant
+ScreenVersion: 1.0
+SerialVersion: 2
+MinPlatformVersion: 19
+ProOnly: True
+Author: Fatih Tuzun
+ShortDescription: Use AI to analyze in-scope traffic to reveal key insights.
+EntryPoint: build/libs/ai-recon-assistant-1.0.jar
+BuildCommand: ./gradlew jar
+SupportedProducts: Pro
