@@ -16,10 +16,15 @@ public class ReconExtension implements BurpExtension {
         api.extension().setName("AI Recon Assistant");
         Logging logging = api.logging();
 
+        ExecutorService executorService = newFixedThreadPool(3); // Save reference to thread pool
+
         var promptHandler = new ReconPromptHandler(api);
-        var tab = new ReconTab(api, promptHandler, newFixedThreadPool(3));
+
+        var tab = new ReconTab(api, promptHandler, executorService);
+
         api.userInterface().registerSuiteTab("AI Recon", tab.getUiComponent());
 
+        api.extension().registerUnloadingHandler(executorService::shutdownNow);
         api.logging().logToOutput("AI Recon Assistant loaded.");
     }
     @Override
